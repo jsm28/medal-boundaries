@@ -22,4 +22,4 @@ mathematical olympiad medal boundaries, and comparison of those with
 the boundaries that were actually chosen.
 """
 
-__all__ = []
+__all__ = ['algorithms']
