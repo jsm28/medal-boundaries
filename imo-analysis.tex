@@ -106,6 +106,21 @@ Year & Ideal & Below & Above \\
 \input{gen-bronze-table.tex}
 \end{tabular}
 
+The following list shows which years in the past thirty years
+(1986--2015) various algorithms would have failed to predict the
+bronze medal boundary correctly (the arbitrary nature of some of the
+algorithms is because they are chosen to model many past choices,
+rather than on any theoretical basis).  Algorithms are described in
+terms of a choice between going $a$~medals above half the number of
+contestants and going $b$~medals below; after the first two algorithms
+listed, they attempt to model various notions of an unusual
+distribution of marks that might justify going over half the number of
+contestants.
+
+\begin{itemize}
+\input{gen-bronze-alg-list.tex}
+\end{itemize}
+
 \section*{Gold and silver medal boundaries}
 
 The algorithms here all work based on a previously determined bronze
@@ -129,8 +144,8 @@ There is also a mirror on GitHub:
 \texttt{\href{https://github.com/jsm28/medal-boundaries}{https://github.com/jsm28/medal-boundaries}}
 \end{quote}
 
-This analysis may be revised from time to time.  See that repository
-for details of previous versions.
+This analysis document may be revised from time to time.  See that
+repository for details of previous versions.
 
 The code downloads data from imo-official.  Note that the ideal number
 of medals is half the number of non-disqualified contestants (not half

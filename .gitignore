@@ -1,5 +1,6 @@
 *.pyc
 cache
+gen-bronze-alg-list.tex
 gen-bronze-table.tex
 imo-analysis.aux
 imo-analysis.log

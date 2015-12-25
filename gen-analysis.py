@@ -22,7 +22,8 @@ Generate .tex files with IMO results analyses.
 
 import fractions
 
-from medalbound.algorithms import get_cum_alternatives
+from medalbound.algorithms import get_cum_alternatives, \
+    MarginAlgorithmLinear, MarginAlgorithmQuadratic
 from medalbound.data.imo import IMOResults
 
 START_YEAR = 1986
@@ -70,9 +71,38 @@ def gen_bronze_table(data):
                            (year, print_frac(ideal_medals),
                             margin_below, margin_above))
 
+def gen_bronze_alg_list(data):
+    """
+    Generate list of years where algorithms fail to predict the bronze
+    boundary correctly.
+    """
+    algs = (('Never give medals to more than half the contestants: ',
+             MarginAlgorithmLinear(1, 0, True)),
+            ('Give as near half the contestants as possible medals, '
+             'being generous in case of equality ($b\ge a$)',
+             MarginAlgorithmLinear(1, 1, False)),
+            ('Go over if $b\ge 5a$', MarginAlgorithmLinear(5, 1, False)),
+            ('Go over if $b > 4a$', MarginAlgorithmLinear(4, 1, True)),
+            ('Go over if $b\ge 3.5a$', MarginAlgorithmLinear(7, 2, False)),
+            ('Go over if $b\ge 1.5a^2$',
+             MarginAlgorithmQuadratic(3, 2, False)))
+    with open('gen-bronze-alg-list.tex', 'w') as tex_file:
+        for alg in algs:
+            ylist = []
+            for year in range(START_YEAR, NEXT_YEAR):
+                d = data[year]
+                predicted = alg[1].compute_boundaries(d.cum_total_stats,
+                                                      [1, 2, 3, 6],
+                                                      [None, None, None, None])
+                if predicted[2] != d.cum_medal_stats[2]:
+                    ylist.append(year)
+            ylist = [str(y) for y in ylist]
+            tex_file.write('\\item %s: %s.\n' % (alg[0], ', '.join(ylist)))
+
 def main():
     """Generate all .tex files with IMO results analyses."""
     data = get_all_data()
     gen_bronze_table(data)
+    gen_bronze_alg_list(data)
 
 main()
