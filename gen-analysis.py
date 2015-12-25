@@ -23,7 +23,9 @@ Generate .tex files with IMO results analyses.
 import fractions
 
 from medalbound.algorithms import get_cum_alternatives, \
-    MarginAlgorithmLinear, MarginAlgorithmQuadratic
+    MarginAlgorithmLinear, MarginAlgorithmQuadratic, \
+    MedalAlgorithmIndependent, MedalAlgorithmLowestFirst, \
+    MedalAlgorithmLp, MedalAlgorithmRatio
 from medalbound.data.imo import IMOResults
 
 START_YEAR = 1986
@@ -99,10 +101,47 @@ def gen_bronze_alg_list(data):
             ylist = [str(y) for y in ylist]
             tex_file.write('\\item %s: %s.\n' % (alg[0], ', '.join(ylist)))
 
+def gen_gs_alg_list(data):
+    """
+    Generate list of years where algorithms fail to predict the gold
+    and silver boundaries correctly.
+    """
+    algs = (('Choose boundaries independently', MedalAlgorithmIndependent()),
+            ('Choose silver first', MedalAlgorithmLowestFirst()),
+            ('$L^1$, unscaled', MedalAlgorithmLp(1, False)),
+            ('$L^2$, unscaled', MedalAlgorithmLp(2, False)),
+            ('$L^1$, scaled', MedalAlgorithmLp(1, True)),
+            ('$L^2$, scaled', MedalAlgorithmLp(2, True)),
+            ('Ratios', MedalAlgorithmRatio()))
+    with open('gen-gs-alg-list.tex', 'w') as tex_file:
+        for alg in algs:
+            ylist = []
+            for year in range(START_YEAR, NEXT_YEAR):
+                d = data[year]
+                predicted = alg[1].compute_boundaries(d.cum_total_stats,
+                                                      [1, 2, 3, 6],
+                                                      [None, None,
+                                                       d.cum_medal_stats[2],
+                                                       None])
+                if (predicted[0] != d.cum_medal_stats[0] or
+                    predicted[1] != d.cum_medal_stats[1]):
+                    actual = '(%d, %d, %d)' % (d.medal_stats[0],
+                                               d.medal_stats[1],
+                                               d.medal_stats[2])
+                    pred = '(%d, %d, %d)' % (predicted[0],
+                                             predicted[1] - predicted[0],
+                                             predicted[2] - predicted[1])
+                    ybad = '%d (%s predicted, %s actual)' % (year,
+                                                             pred,
+                                                             actual)
+                    ylist.append(ybad)
+            tex_file.write('\\item %s: %s.\n' % (alg[0], ', '.join(ylist)))
+
 def main():
     """Generate all .tex files with IMO results analyses."""
     data = get_all_data()
     gen_bronze_table(data)
     gen_bronze_alg_list(data)
+    gen_gs_alg_list(data)
 
 main()

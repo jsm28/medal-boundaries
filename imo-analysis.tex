@@ -129,6 +129,44 @@ chosen by the Jury.  This is to accord most closely with historical
 practice, although of course algorithms could be adapted to determine
 all three boundaries together in a similar way.
 
+As there are two boundaries to be chosen here, to approximate a ratio
+$1:2:3$, there may not necessarily be only two obvious choices in all
+cases.  We consider the following algorithms (in all cases, ties are
+broken by being generous---first by being generous regarding the total
+number of gold and silver medals, then by being generous regarding the
+number of gold medals).
+
+\begin{itemize}
+\item Boundaries may be chosen independently, to make the number of
+  gold and silver medals as close as possible to half the number of
+  medals, and to make the number of gold medals as close as possible
+  to one sixth of the number of medals.
+\item Or the silver boundary may be chosen first, to make the number
+  of gold and silver medals as close as possible to half the number of
+  medals, followed by choosing the gold boundary to make the number of
+  gold medals as close as possible to a third of the number of gold
+  and silver medals.
+\item Or we may try to minimise the total deviation of the numbers of
+  each type of medal from the ideal by looking at the $L^p$ norm of
+  the vector of deviations from the ideal; or we may do this after
+  scaling the numbers of each type of medal so that all the ideal
+  numbers are equal.
+\item Finally, we consider minimising a deviation determined directly
+  from the ratios: $2g/s + s/2g + 3g/b + b/3g + 3s/2b + 2b/3s \ge 6$
+  by AM-GM, with equality when the medals achieve the ideal
+  proportions.  (This is my preferred approach.)
+\end{itemize}
+
+The following list shows when in the past thirty years each of these
+approaches has failed to predict the boundaries chosen by the Jury.
+It will be seen that these algorithms are a less good match before
+around 2000, with the Jury apparently having commonly chosen to be
+strict about these choices before then.
+
+\begin{itemize}
+\input{gen-gs-alg-list.tex}
+\end{itemize}
+
 \section*{References}
 
 All the code used to implement different algorithms for the above
@@ -154,6 +192,8 @@ a total number that includes disqualified contestants, in 1991 and
 contestants to whom a translated paper was transmitted inaccurately
 (because that was the basis on which boundaries were determined that
 year, with those contestants then being given prizes as if they had
-scored~7 on the affected problem).
+scored~7 on the affected problem), meaning that figures differ
+slightly from those appearing on imo-official if this is not allowed
+for.
 
 \end{document}
