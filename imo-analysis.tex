@@ -1,0 +1,144 @@
+% Copyright 2015 Joseph Samuel Myers.
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 3 of the License, or
+% (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful, but
+% WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+% General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see
+% <https://www.gnu.org/licenses/>.
+\documentclass[a4paper,11pt]{article}
+\usepackage[a4paper,left=2.5cm,right=2.5cm,bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage{hyperref}
+\begin{document}
+\title{Analysis of IMO medal boundary choices}
+\author{Joseph Myers}
+\date{December 2015}
+\maketitle
+
+\section*{Introduction}
+
+Medal boundaries at the International Mathematical Olympiad are
+determined by the following from the General Regulations:
+
+\begin{quote}
+\textbf{5.6} The total number of prizes (first, second and third) must
+be approved by the Jury and should not normally exceed half the total
+number of Contestants. The numbers of first, second and third prizes
+must be approximately in the ratio $1:2:3$.
+\end{quote}
+
+This is a revision of previous wording used in 2011 and 2012, the
+regulations of which IMOs were used as the basis for the General
+Regulations:
+
+\begin{quote}
+\textbf{5.6} The total number of prizes (first, second and third) will
+not exceed half the total number of Contestants. The numbers of first,
+second and third prizes will be approximately in the ratio $1:2:3$.
+\end{quote}
+
+The principles date back at least as far as IMO 1984 (whose
+regulations appear in \textit{International Mathematical Olympiads
+  1978--1985 and Forty Supplementary Problems} by Murray S. Klamkin
+(MAA)):
+
+\begin{quote}
+The total number of awarded prizes will not exceed half of the number
+of all contestants.  The number of 1st, 2nd, and 3rd prizes awarded
+will if possible be in the ratio $1:2:3$.
+\end{quote}
+
+In practice, first, second and third prizes are generally known as
+gold, silver and bronze medals.  They are awarded based on ranking
+contestants by total score, and as many medals in total are awarded as
+possible consistent with not giving more than half of contestants
+medals.  On several occasions, more than half of contestants have been
+given medals where this seemed fairer to the Jury in light of the
+particular distribution of scores at that IMO, leading to the
+insertion of ``normally'' to reflect existing practice when the
+regulations were split into General and Annual Regulations, with
+revisions of the General Regulations being the responsibility of the
+Jury instead of being decided by each host country.
+
+At IMO 2015, changes were debated to make it harder to choose to give
+more than half the contestants medals, with the result that it was
+agreed (via a change to the Annual Regulations approved by the IMO
+Advisory Board for 2015 only) that giving more than half the
+contestants medals would require a 2/3 majority.  In addition, a new
+procedure was introduced where the medal boundaries were debated and
+voted on based on figures and bar charts for the numbers of medals of
+each type, without information about the scores to which those
+corresponded, to make it less likely that votes would be based on
+self-interest.  However, the debate about the merits of different
+boundaries still continued for a long time.
+
+This document analyses various possible algorithms for deciding medal
+boundaries based on how well they agree with past decisions made by
+the Jury, with the idea that it would be fairer if a consistent
+algorithm were used to decide medal boundaries (whether always, or
+unless the Jury decides by a super-majority that the results of the
+algorithm are clearly inappropriate in a particular case).
+
+Some other mathematical olympiads also decide medal boundaries
+following similar rules to the IMO.
+
+\section*{Bronze medal boundary}
+
+The algorithms here relate to choosing the total number of contestants
+to receive a medal.  All these algorithms choose between two
+possibilities: the closest numbers above and below half the number of
+contestants.  (If it is possible for exactly half the contestants to
+receive a medal, there is only one possibility.)
+
+The following table shows the ideal number of medals each year and the
+choices for how many medals to go below or above that number, with the
+choice made in bold.
+
+\begin{tabular}{cccc}
+Year & Ideal & Below & Above \\
+\input{gen-bronze-table.tex}
+\end{tabular}
+
+\section*{Gold and silver medal boundaries}
+
+The algorithms here all work based on a previously determined bronze
+medal boundary; for the analysis here, this is the boundary actually
+chosen by the Jury.  This is to accord most closely with historical
+practice, although of course algorithms could be adapted to determine
+all three boundaries together in a similar way.
+
+\section*{References}
+
+All the code used to implement different algorithms for the above
+analyses is available at:
+
+\begin{quote}
+\texttt{git://git.ukmt.org.uk/git/medal-boundaries.git}
+\end{quote}
+
+There is also a mirror on GitHub:
+
+\begin{quote}
+\texttt{\href{https://github.com/jsm28/medal-boundaries}{https://github.com/jsm28/medal-boundaries}}
+\end{quote}
+
+This analysis may be revised from time to time.  See that repository
+for details of previous versions.
+
+The code downloads data from imo-official.  Note that the ideal number
+of medals is half the number of non-disqualified contestants (not half
+a total number that includes disqualified contestants, in 1991 and
+2010), and in 2005 all calculations are done without including two
+contestants to whom a translated paper was transmitted inaccurately
+(because that was the basis on which boundaries were determined that
+year, with those contestants then being given prizes as if they had
+scored~7 on the affected problem).
+
+\end{document}

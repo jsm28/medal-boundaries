@@ -1,2 +1,7 @@
 *.pyc
 cache
+gen-bronze-table.tex
+imo-analysis.aux
+imo-analysis.log
+imo-analysis.out
+imo-analysis.pdf

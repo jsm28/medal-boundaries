@@ -23,12 +23,12 @@ mathematical olympiads.
 
 import fractions
 
-__all__ = ['Algorithm', 'MarginAlgorithm', 'MarginAlgorithmLinear',
-           'MarginAlgorithmQuadratic', 'MedalAlgorithmIndependent',
-           'MedalAlgorithmLowestFirst', 'MedalAlgorithmScore',
-           'MedalAlgorithmLp', 'MedalAlgorithmRatio']
+__all__ = ['get_cum_alternatives', 'Algorithm', 'MarginAlgorithm',
+           'MarginAlgorithmLinear', 'MarginAlgorithmQuadratic',
+           'MedalAlgorithmIndependent', 'MedalAlgorithmLowestFirst',
+           'MedalAlgorithmScore', 'MedalAlgorithmLp', 'MedalAlgorithmRatio']
 
-def _get_cum_alternatives(ideal_cum, cum_stats):
+def get_cum_alternatives(ideal_cum, cum_stats):
     """Return alternatives for the number of medals around an ideal value."""
     num_below = 0
     for i in range(len(cum_stats)-1, -1, -1):
@@ -87,8 +87,8 @@ class MarginAlgorithm(Algorithm):
         goal_sum_medals = goal_sum - goal[-1]
         goal_medal_frac = fractions.Fraction(goal_sum_medals, goal_sum)
         goal_medal_ideal = num_contestants * goal_medal_frac
-        (num_below, num_above) = _get_cum_alternatives(goal_medal_ideal,
-                                                       cum_stats)
+        (num_below, num_above) = get_cum_alternatives(goal_medal_ideal,
+                                                      cum_stats)
         margin_below = goal_medal_ideal - num_below
         margin_above = num_above - goal_medal_ideal
         if self.choice_fn(margin_below, margin_above):
@@ -171,8 +171,8 @@ class MedalAlgorithmIndependent(Algorithm):
             goal_sum_high = sum(goal[0:i+1])
             goal_frac = fractions.Fraction(goal_sum_high, goal_sum_medals)
             goal_ideal = num_medals * goal_frac
-            (num_below, num_above) = _get_cum_alternatives(goal_ideal,
-                                                           cum_stats)
+            (num_below, num_above) = get_cum_alternatives(goal_ideal,
+                                                          cum_stats)
             margin_below = goal_ideal - num_below
             margin_above = num_above - goal_ideal
             if margin_below >= margin_above:
@@ -203,8 +203,8 @@ class MedalAlgorithmLowestFirst(Algorithm):
             goal_sum_den = sum(goal[0:i+2])
             goal_frac = fractions.Fraction(goal_sum_num, goal_sum_den)
             goal_ideal = ret[i+1] * goal_frac
-            (num_below, num_above) = _get_cum_alternatives(goal_ideal,
-                                                           cum_stats)
+            (num_below, num_above) = get_cum_alternatives(goal_ideal,
+                                                          cum_stats)
             margin_below = goal_ideal - num_below
             margin_above = num_above - goal_ideal
             if margin_below >= margin_above:
