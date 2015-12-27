@@ -101,21 +101,26 @@ def gen_bronze_alg_list(data):
             ylist = [str(y) for y in ylist]
             tex_file.write('\\item %s: %s.\n' % (alg[0], ', '.join(ylist)))
 
-def gen_gs_alg_list(data):
+def gen_gs_alg_table(data):
     """
     Generate list of years where algorithms fail to predict the gold
     and silver boundaries correctly.
     """
-    algs = (('Choose boundaries independently', MedalAlgorithmIndependent()),
-            ('Choose silver first', MedalAlgorithmLowestFirst()),
-            ('$L^1$, unscaled', MedalAlgorithmLp(1, False)),
-            ('$L^2$, unscaled', MedalAlgorithmLp(2, False)),
-            ('$L^1$, scaled', MedalAlgorithmLp(1, True)),
-            ('$L^2$, scaled', MedalAlgorithmLp(2, True)),
-            ('Ratios', MedalAlgorithmRatio()))
-    with open('gen-gs-alg-list.tex', 'w') as tex_file:
+    algs = (('I', MedalAlgorithmIndependent()),
+            ('S', MedalAlgorithmLowestFirst()),
+            ('L^1', MedalAlgorithmLp(1, False)),
+            ('L^2', MedalAlgorithmLp(2, False)),
+            ('L^1s', MedalAlgorithmLp(1, True)),
+            ('L^2s', MedalAlgorithmLp(2, True)),
+            ('R', MedalAlgorithmRatio()))
+    with open('gen-gs-alg-table.tex', 'w') as tex_file:
+        ydata = {}
+        for year in range(START_YEAR, NEXT_YEAR):
+            d = data[year]
+            dt = (d.cum_medal_stats[2], d.cum_medal_stats[1],
+                  d.cum_medal_stats[0])
+            ydata[year] = {dt: ['Actual']}
         for alg in algs:
-            ylist = []
             for year in range(START_YEAR, NEXT_YEAR):
                 d = data[year]
                 predicted = alg[1].compute_boundaries(d.cum_total_stats,
@@ -123,25 +128,34 @@ def gen_gs_alg_list(data):
                                                       [None, None,
                                                        d.cum_medal_stats[2],
                                                        None])
-                if (predicted[0] != d.cum_medal_stats[0] or
-                    predicted[1] != d.cum_medal_stats[1]):
-                    actual = '(%d, %d, %d)' % (d.medal_stats[0],
-                                               d.medal_stats[1],
-                                               d.medal_stats[2])
-                    pred = '(%d, %d, %d)' % (predicted[0],
-                                             predicted[1] - predicted[0],
-                                             predicted[2] - predicted[1])
-                    ybad = '%d (%s predicted, %s actual)' % (year,
-                                                             pred,
-                                                             actual)
-                    ylist.append(ybad)
-            tex_file.write('\\item %s: %s.\n' % (alg[0], ', '.join(ylist)))
+                pt = (predicted[2], predicted[1], predicted[0])
+                if pt in ydata[year]:
+                    ydata[year][pt].append(alg[0])
+                else:
+                    ydata[year][pt] = [alg[0]]
+        max_num_opts = max([len(ydata[year].keys())
+                            for year in range(START_YEAR, NEXT_YEAR)])
+        col_descs = ['c' for i in range(max_num_opts+1)]
+        tex_file.write('\\begin{tabular}{|%s|}\n' % '|'.join(col_descs))
+        for year in range(START_YEAR, NEXT_YEAR):
+            yd = ydata[year]
+            ylist = []
+            for k in sorted(yd.keys()):
+                if 'Actual' in yd[k]:
+                    ylist.append('{\\small\\textbf{(%d, %d, %d)}}' %
+                                 (k[2], k[1]-k[2], k[0]-k[1]))
+                else:
+                    ylist.append('{\\small(%d, %d, %d)} {\\footnotesize $%s$}' %
+                                 (k[2], k[1]-k[2], k[0]-k[1], ''.join(yd[k])))
+            ylist.extend(['' for i in range(max_num_opts - len(ylist))])
+            tex_file.write('%d & %s\\\\\n' % (year, ' & '.join(ylist)))
+        tex_file.write('\\end{tabular}\n')
 
 def main():
     """Generate all .tex files with IMO results analyses."""
     data = get_all_data()
     gen_bronze_table(data)
     gen_bronze_alg_list(data)
-    gen_gs_alg_list(data)
+    gen_gs_alg_table(data)
 
 main()

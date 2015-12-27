@@ -142,38 +142,41 @@ $1:2:3$, there may not necessarily be only two obvious choices in all
 cases.  We consider the following algorithms (in all cases, ties are
 broken by being generous---first by being generous regarding the total
 number of gold and silver medals, then by being generous regarding the
-number of gold medals).
+number of gold medals).  Each algorithm is given a code used in the
+following table.
 
 \begin{itemize}
 \item Boundaries may be chosen independently, to make the number of
   gold and silver medals as close as possible to half the number of
   medals, and to make the number of gold medals as close as possible
-  to one sixth of the number of medals.
+  to one sixth of the number of medals.  ($I$)
 \item Or the silver boundary may be chosen first, to make the number
   of gold and silver medals as close as possible to half the number of
   medals, followed by choosing the gold boundary to make the number of
   gold medals as close as possible to a third of the number of gold
-  and silver medals.
+  and silver medals.  ($S$)
 \item Or we may try to minimise the total deviation of the numbers of
   each type of medal from the ideal by looking at the $L^p$ norm of
   the vector of deviations from the ideal; or we may do this after
   scaling the numbers of each type of medal so that all the ideal
-  numbers are equal.
+  numbers are equal.  ($L^p$, $L^ps$)
 \item Finally, we consider minimising a deviation determined directly
   from the ratios: $2g/s + s/2g + 3g/b + b/3g + 3s/2b + 2b/3s \ge 6$
   by AM-GM, with equality when the medals achieve the ideal
-  proportions.  (This is my preferred approach.)
+  proportions.  (This is my preferred approach.)  ($R$)
 \end{itemize}
 
-The following list shows when in the past thirty years each of these
+The following table shows when in the past thirty years each of these
 approaches has failed to predict the boundaries chosen by the Jury.
 It will be seen that these algorithms are a less good match before
 around 2000, with the Jury apparently having commonly chosen to be
-strict about these choices before then.
+strict about these choices before then.  The boundaries actually
+chosen are in bold; other choices of boundaries have the algorithms
+that would have chosen them indicated.  Stricter choices of boundaries
+(fewer gold and silver medals, then fewer gold medals) are on the
+left.
 
-\begin{itemize}
-\input{gen-gs-alg-list.tex}
-\end{itemize}
+\input{gen-gs-alg-table.tex}
 
 \section*{References}
 
