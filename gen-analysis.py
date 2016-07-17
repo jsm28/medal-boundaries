@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-# Copyright 2015 Joseph Samuel Myers.
+# Copyright 2015-2016 Joseph Samuel Myers.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ from medalbound.algorithms import get_cum_alternatives, \
 from medalbound.data.imo import IMOResults
 
 START_YEAR = 1986
-NEXT_YEAR = 2016
+NEXT_YEAR = 2017
 
 def get_all_data():
     """Load results for all relevant IMOs."""
