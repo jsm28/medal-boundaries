@@ -21,4 +21,4 @@ The medalbound.data package implements support for downloading and
 processing results from particular olympiads.
 """
 
-__all__ = ['imo', 'results']
+__all__ = ['egmo', 'imo', 'results']
