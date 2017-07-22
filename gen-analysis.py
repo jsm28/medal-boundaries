@@ -29,7 +29,7 @@ from medalbound.algorithms import get_cum_alternatives, \
 from medalbound.data.imo import IMOResults
 
 START_YEAR = 1986
-NEXT_YEAR = 2017
+NEXT_YEAR = 2018
 
 def get_all_data():
     """Load results for all relevant IMOs."""
