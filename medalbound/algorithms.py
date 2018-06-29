@@ -148,7 +148,8 @@ class MarginAlgorithmQuadratic(MarginAlgorithm):
             margin_above_2 = margin_above * margin_above
             if den * margin_below > num * margin_above_2:
                 return True
-            elif den * margin_below == num * margin_above_2 and not strict_ineq:
+            elif (den * margin_below == num * margin_above_2
+                  and not strict_ineq):
                 return True
             else:
                 return False
@@ -330,14 +331,16 @@ class MedalAlgorithmRatio(MedalAlgorithmScore):
                 if i > 0:
                     num_this_medal -= bounds[i-1]
                 num_medals.append(num_this_medal)
-                # Cases with zero of a medal are less-preferred than any others.
+                # Cases with zero of a medal are less-preferred than
+                # any others.
                 if num_this_medal == 0:
                     return (1, 0)
             score = 0
             for i in range(num_medal_types):
                 for j in range(num_medal_types):
                     if i != j:
-                        ratio = fractions.Fraction(num_medals[i], num_medals[j])
+                        ratio = fractions.Fraction(num_medals[i],
+                                                   num_medals[j])
                         goal_ratio = fractions.Fraction(goal[i], goal[j])
                         score += ratio / goal_ratio
             return (0, score)

@@ -73,9 +73,9 @@ def gen_bronze_table(data):
                 margin_below = '\\mathbf{%s}' % margin_below
             if num_above == actual_medals:
                 margin_above = '\\mathbf{%s}' % margin_above
-            tex_file.write('%d & $%s$ & $%s$ & $%s$ \\\\\n' %
-                           (year, print_frac(ideal_medals),
-                            margin_below, margin_above))
+            tex_file.write('%d & $%s$ & $%s$ & $%s$ \\\\\n'
+                           % (year, print_frac(ideal_medals),
+                              margin_below, margin_above))
 
 
 def gen_bronze_alg_list(data):
@@ -148,11 +148,12 @@ def gen_gs_alg_table(data):
             ylist = []
             for k in sorted(yd.keys()):
                 if 'Actual' in yd[k]:
-                    ylist.append('{\\small\\textbf{(%d, %d, %d)}}' %
-                                 (k[2], k[1]-k[2], k[0]-k[1]))
+                    ylist.append('{\\small\\textbf{(%d, %d, %d)}}'
+                                 % (k[2], k[1]-k[2], k[0]-k[1]))
                 else:
-                    ylist.append('{\\small(%d, %d, %d)} {\\footnotesize $%s$}' %
-                                 (k[2], k[1]-k[2], k[0]-k[1], ''.join(yd[k])))
+                    ylist.append('{\\small(%d, %d, %d)} {\\footnotesize $%s$}'
+                                 % (k[2], k[1]-k[2], k[0]-k[1],
+                                    ''.join(yd[k])))
             ylist.extend(['' for i in range(max_num_opts - len(ylist))])
             tex_file.write('%d & %s\\\\\n' % (year, ' & '.join(ylist)))
         tex_file.write('\\end{tabular}\n')
