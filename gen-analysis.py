@@ -81,12 +81,12 @@ def gen_bronze_alg_list(data):
     algs = (('Never give medals to more than half the contestants: ',
              MarginAlgorithmLinear(1, 0, True)),
             ('Give as near half the contestants as possible medals, '
-             'being generous in case of equality ($b\ge a$)',
+             'being generous in case of equality ($b\\ge a$)',
              MarginAlgorithmLinear(1, 1, False)),
-            ('Go over if $b\ge 5a$', MarginAlgorithmLinear(5, 1, False)),
+            ('Go over if $b\\ge 5a$', MarginAlgorithmLinear(5, 1, False)),
             ('Go over if $b > 4a$', MarginAlgorithmLinear(4, 1, True)),
-            ('Go over if $b\ge 3.5a$', MarginAlgorithmLinear(7, 2, False)),
-            ('Go over if $b\ge 1.5a^2$',
+            ('Go over if $b\\ge 3.5a$', MarginAlgorithmLinear(7, 2, False)),
+            ('Go over if $b\\ge 1.5a^2$',
              MarginAlgorithmQuadratic(3, 2, False)))
     with open('gen-bronze-alg-list.tex', 'w') as tex_file:
         for alg in algs:
