@@ -294,7 +294,6 @@ class MedalAlgorithmLp(MedalAlgorithmScore):
                     num_this_medal *= fractions.Fraction(goal_total, goal[i])
                 else:
                     ideal_this_medal *= fractions.Fraction(goal[i], goal_total)
-                tscore = 1
                 diff = abs(num_this_medal - ideal_this_medal)
                 score += pow(diff, p)
             return score
@@ -316,8 +315,6 @@ class MedalAlgorithmRatio(MedalAlgorithmScore):
         def score_ratio(goal, bounds):
             num_medal_types = len(goal)-1
             num_medals = []
-            ideal_num_medals = []
-            total_num_medals = bounds[-2]
             for i in range(num_medal_types):
                 num_this_medal = bounds[i]
                 if i > 0:
