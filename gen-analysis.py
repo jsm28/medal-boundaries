@@ -28,8 +28,10 @@ from medalbound.algorithms import get_cum_alternatives, \
     MedalAlgorithmLp, MedalAlgorithmRatio
 from medalbound.data.imo import IMOResults
 
+
 START_YEAR = 1986
 NEXT_YEAR = 2018
+
 
 def get_all_data():
     """Load results for all relevant IMOs."""
@@ -37,6 +39,7 @@ def get_all_data():
     for year in range(START_YEAR, NEXT_YEAR):
         data[year] = IMOResults(year)
     return data
+
 
 def print_frac(f):
     """Return text for a non-negative fraction in LaTeX form."""
@@ -51,6 +54,7 @@ def print_frac(f):
         else:
             int_part = str(int_part)
         return '%s\\frac{%d}{%d}' % (int_part, fp.numerator, fp.denominator)
+
 
 def gen_bronze_table(data):
     """Generate table of bronze boundary choices."""
@@ -72,6 +76,7 @@ def gen_bronze_table(data):
             tex_file.write('%d & $%s$ & $%s$ & $%s$ \\\\\n' %
                            (year, print_frac(ideal_medals),
                             margin_below, margin_above))
+
 
 def gen_bronze_alg_list(data):
     """
@@ -100,6 +105,7 @@ def gen_bronze_alg_list(data):
                     ylist.append(year)
             ylist = [str(y) for y in ylist]
             tex_file.write('\\item %s: %s.\n' % (alg[0], ', '.join(ylist)))
+
 
 def gen_gs_alg_table(data):
     """
@@ -151,11 +157,13 @@ def gen_gs_alg_table(data):
             tex_file.write('%d & %s\\\\\n' % (year, ' & '.join(ylist)))
         tex_file.write('\\end{tabular}\n')
 
+
 def main():
     """Generate all .tex files with IMO results analyses."""
     data = get_all_data()
     gen_bronze_table(data)
     gen_bronze_alg_list(data)
     gen_gs_alg_table(data)
+
 
 main()

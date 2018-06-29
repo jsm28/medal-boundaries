@@ -28,6 +28,7 @@ from medalbound.data.results import Results
 
 __all__ = ['IMOResults']
 
+
 class IMOResults(Results):
 
     """Subclass of Results providing IMO information."""

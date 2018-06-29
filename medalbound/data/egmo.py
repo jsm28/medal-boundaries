@@ -28,6 +28,7 @@ from medalbound.data.results import Results
 
 __all__ = ['EGMOResults']
 
+
 class EGMOResults(Results):
 
     """Subclass of Results providing EGMO information."""
@@ -50,8 +51,8 @@ class EGMOResults(Results):
         countries_csv_name = os.path.join(self.cache_dir, 'countries.csv')
         people_csv_name = os.path.join(self.cache_dir, 'people.csv')
         countries = read_utf8_csv(countries_csv_name)
-        countries_official = { c['Code'] for c in countries
-                               if c['Official European'] == 'Yes' }
+        countries_official = {c['Code'] for c in countries
+                              if c['Official European'] == 'Yes'}
         people = read_utf8_csv(people_csv_name)
         people = [p for p in people
                   if p['Contestant Code']

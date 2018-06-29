@@ -28,6 +28,7 @@ __all__ = ['get_cum_alternatives', 'Algorithm', 'MarginAlgorithm',
            'MedalAlgorithmIndependent', 'MedalAlgorithmLowestFirst',
            'MedalAlgorithmScore', 'MedalAlgorithmLp', 'MedalAlgorithmRatio']
 
+
 def get_cum_alternatives(ideal_cum, cum_stats):
     """Return alternatives for the number of medals around an ideal value."""
     num_below = 0
@@ -37,6 +38,7 @@ def get_cum_alternatives(ideal_cum, cum_stats):
         if cum_stats[i] >= ideal_cum:
             return (num_below, cum_stats[i])
     raise ValueError('Ideal number of medals exceeds number of contestants')
+
 
 class Algorithm(object):
 
@@ -62,6 +64,7 @@ class Algorithm(object):
         about what information is provided.
         """
         raise NotImplementedError
+
 
 class MarginAlgorithm(Algorithm):
 
@@ -100,6 +103,7 @@ class MarginAlgorithm(Algorithm):
         ret[-1] = num_contestants
         return ret
 
+
 class MarginAlgorithmLinear(MarginAlgorithm):
 
     """
@@ -123,6 +127,7 @@ class MarginAlgorithmLinear(MarginAlgorithm):
             else:
                 return False
         super(MarginAlgorithmLinear, self).__init__(choose_linear)
+
 
 class MarginAlgorithmQuadratic(MarginAlgorithm):
 
@@ -148,6 +153,7 @@ class MarginAlgorithmQuadratic(MarginAlgorithm):
             else:
                 return False
         super(MarginAlgorithmQuadratic, self).__init__(choose_quadratic)
+
 
 class MedalAlgorithmIndependent(Algorithm):
 
@@ -181,6 +187,7 @@ class MedalAlgorithmIndependent(Algorithm):
                 ret[i] = num_below
         return ret
 
+
 class MedalAlgorithmLowestFirst(Algorithm):
 
     """
@@ -212,6 +219,7 @@ class MedalAlgorithmLowestFirst(Algorithm):
             else:
                 ret[i] = num_below
         return ret
+
 
 class MedalAlgorithmScore(Algorithm):
 
@@ -269,6 +277,7 @@ class MedalAlgorithmScore(Algorithm):
                                              len(known_bound)-3)
         return ret
 
+
 class MedalAlgorithmLp(MedalAlgorithmScore):
 
     """
@@ -298,6 +307,7 @@ class MedalAlgorithmLp(MedalAlgorithmScore):
                 score += pow(diff, p)
             return score
         super(MedalAlgorithmLp, self).__init__(score_lp)
+
 
 class MedalAlgorithmRatio(MedalAlgorithmScore):
 
