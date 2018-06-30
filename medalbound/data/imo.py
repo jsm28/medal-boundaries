@@ -44,7 +44,7 @@ class IMOResults(Results):
                 '?year=%d&column=total&order=desc&download=XML'
                 % self.event_id)
 
-    def imo_special_case(self, id):
+    def imo_special_case_exclude(self, id):
         """
         Return whether this contestant should be excluded for the
         purposes of medal boundaries consideration.
@@ -53,12 +53,25 @@ class IMOResults(Results):
         # one translation to the contestants, medal boundaries were
         # determined without considering two contestants, and then
         # those contestants were given awards as if they had scored 7
-        # on the affected problem.
-        if self.event_id != 2005:
-            return False
-        if id == '8678' or id == '8613':
-            return True
-        return False
+        # on the affected problem.  One ineligible contestant was
+        # disqualified in 2016 from IMOs 2010, 2011 and 2012; cached
+        # downloaded data might predate that disqualification, while
+        # their scores need adding back for data from after the
+        # disqualification so the calculations reflect the same data
+        # used by the Jury to decide medal boundaries at the time.
+        special_cases = ((2005, '8613'), (2005, '8678'),
+                         (2010, '19342'), (2011, '20886'), (2012, '21815'))
+        return (self.event_id, id) in special_cases
+
+    def imo_special_case_add(self):
+        """Return special cases (total, award) to add for this event."""
+        special_cases = {2010: [(21, 'Silver medal')],
+                         2011: [(14, '')],
+                         2012: [(18, 'Bronze medal')]}
+        if self.event_id in special_cases:
+            return special_cases[self.event_id]
+        else:
+            return []
 
     def process_data(self):
         xml_file_name = os.path.join(self.cache_dir, 'IMO_Individual.xml')
@@ -71,7 +84,7 @@ class IMOResults(Results):
                        '': 0}
         self.num_contestants = 0
         for c in xml_et.iter('contestant'):
-            if not self.imo_special_case(c.attrib['id']):
+            if not self.imo_special_case_exclude(c.attrib['id']):
                 self.num_contestants += 1
                 total = int(c.find('total').text)
                 award = c.find('award').text
@@ -81,6 +94,10 @@ class IMOResults(Results):
                     raise ValueError('Unknown award: %s' % award)
                 self.total_stats[total] += 1
                 award_stats[award] += 1
+        for c in self.imo_special_case_add():
+            self.num_contestants += 1
+            self.total_stats[c[0]] += 1
+            award_stats[c[1]] += 1
         self.medal_stats = [award_stats['Gold medal'],
                             award_stats['Silver medal'],
                             award_stats['Bronze medal']]
