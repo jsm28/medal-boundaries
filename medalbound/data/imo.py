@@ -44,7 +44,7 @@ class IMOResults(Results):
                 '?year=%d&column=total&order=desc&download=XML'
                 % self.event_id)
 
-    def imo_special_case_exclude(self, id):
+    def imo_special_case_exclude(self, contestant_id):
         """
         Return whether this contestant should be excluded for the
         purposes of medal boundaries consideration.
@@ -61,7 +61,7 @@ class IMOResults(Results):
         # used by the Jury to decide medal boundaries at the time.
         special_cases = ((2005, '8613'), (2005, '8678'),
                          (2010, '19342'), (2011, '20886'), (2012, '21815'))
-        return (self.event_id, id) in special_cases
+        return (self.event_id, contestant_id) in special_cases
 
     def imo_special_case_add(self):
         """Return special cases (total, award) to add for this event."""
