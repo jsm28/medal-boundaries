@@ -30,7 +30,7 @@ from medalbound.data.imo import IMOResults
 
 
 START_YEAR = 1986
-NEXT_YEAR = 2018
+NEXT_YEAR = 2019
 
 
 def get_all_data():
