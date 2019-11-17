@@ -23,14 +23,7 @@ about results of mathematical olympiads.
 
 import os
 import os.path
-import sys
-_py3 = sys.version_info.major >= 3
-if _py3:
-    import urllib.request
-    urlretrieve = urllib.request.urlretrieve
-else:
-    import urllib
-    urlretrieve = urllib.urlretrieve
+import urllib.request
 
 __all__ = ['Results']
 
@@ -76,7 +69,8 @@ class Results(object):
         Download a particular file of data for an event.
         """
         url = self.get_data_url(file_name)
-        urlretrieve(url, os.path.join(self.cache_dir, file_name))
+        urllib.request.urlretrieve(url, os.path.join(self.cache_dir,
+                                                     file_name))
 
     def get_data_url(self, file_name):
         """
