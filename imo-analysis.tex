@@ -13,8 +13,8 @@
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see
 % <https://www.gnu.org/licenses/>.
-\documentclass[a4paper,11pt]{article}
-\usepackage[a4paper,left=2.5cm,right=2.5cm,bottom=2.5cm,top=2.5cm]{geometry}
+\documentclass[a4paper,10pt]{article}
+\usepackage[a4paper,left=2cm,right=2cm,bottom=2.5cm,top=2.5cm]{geometry}
 \usepackage{hyperref}
 \begin{document}
 \title{Analysis of IMO medal boundary choices}
@@ -151,8 +151,8 @@ contestants.
 The algorithms here all work based on a previously determined bronze
 medal boundary; for the analysis here, this is the boundary actually
 chosen by the Jury.  This is to accord most closely with historical
-practice, although of course algorithms could be adapted to determine
-all three boundaries together in a similar way.
+practice; the following section deals with such algorithms adapted to
+determine all three boundaries together in a similar way.
 
 As there are two boundaries to be chosen here, to approximate a ratio
 $1:2:3$, there may not necessarily be only two obvious choices in all
@@ -194,6 +194,24 @@ them indicated.  Stricter choices of boundaries (fewer gold and silver
 medals, then fewer gold medals) are on the left.
 
 \input{gen-gs-alg-table.tex}
+
+\section*{Unified determination of medal boundaries}
+
+In this section, the algorithms from the previous section are adapted
+to determine the bronze medal boundary together with the others, on
+the basis of approximating a ratio of $1:2:3:6$ when `no medal' is
+considered as a kind of medal, and included in all the summations
+described above as such.  The following table shows when each of these
+unified approaches has failed to predict the boundaries chosen by the
+Jury.  The boundaries actually chosen are in bold; other choices of
+boundaries have the algorithms that would have chosen them indicated.
+Stricter choices of boundaries (fewer medals, then fewer gold and
+silver medals, then fewer gold medals) are on the left.  The code was
+originally written to determine just gold and silver boundaries and
+has not been checked carefully for correctness for determining all
+boundaries at once.
+
+\input{gen-gsb-alg-table.tex}
 
 \section*{References}
 
